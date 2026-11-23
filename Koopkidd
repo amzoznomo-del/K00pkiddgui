@@ -1,0 +1,389 @@
+-- LocalScript: Standalone GUI (Green border layout)
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+local SoundService = game:GetService("SoundService")
+local RunService = game:GetService("RunService")
+local localPlayer = Players.LocalPlayer
+
+local GREEN_BORDER = Color3.fromRGB(0, 170, 0)
+local DARK_PANEL = Color3.fromRGB(58, 58, 58)
+local BTN_BG = Color3.fromRGB(8, 8, 8)
+local THEME_SOUND_ID = 1847661821
+local DEFAULT_JUMPSCARE_SOUND_ID = 6018028320
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "StandaloneGreenGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = localPlayer:WaitForChild("PlayerGui")
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 390, 0, 445)
+mainFrame.Position = UDim2.new(0.5, -195, 0.5, -222)
+mainFrame.BackgroundColor3 = DARK_PANEL
+mainFrame.BorderSizePixel = 3
+mainFrame.BorderColor3 = GREEN_BORDER
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.ClipsDescendants = true
+mainFrame.Parent = screenGui
+
+local titleLbl = Instance.new("TextLabel")
+titleLbl.Name = "TitleLbl"
+titleLbl.Size = UDim2.new(1, -16, 0, 36)
+titleLbl.Position = UDim2.new(0, 8, 0, 8)
+titleLbl.BackgroundTransparency = 1
+titleLbl.Text = "mini k00pgui  v???"
+titleLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLbl.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+titleLbl.TextStrokeTransparency = 0
+titleLbl.Font = Enum.Font.Cartoon
+titleLbl.TextSize = 34
+titleLbl.Parent = mainFrame
+
+local subLbl = Instance.new("TextLabel")
+subLbl.Name = "SubLbl"
+subLbl.Size = UDim2.new(1, -16, 0, 24)
+subLbl.Position = UDim2.new(0, 8, 0, 44)
+subLbl.BackgroundTransparency = 1
+subLbl.Text = "make by z*b***9*"
+subLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+subLbl.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+subLbl.TextStrokeTransparency = 0
+subLbl.Font = Enum.Font.Cartoon
+subLbl.TextSize = 20
+subLbl.Parent = mainFrame
+
+local function createGreenBtn(name, text, size, pos, textSize)
+	local btn = Instance.new("TextButton")
+	btn.Name = name
+	btn.Size = size
+	btn.Position = pos
+	btn.BackgroundColor3 = BTN_BG
+	btn.BackgroundTransparency = 0
+	btn.BorderSizePixel = 1
+	btn.BorderColor3 = GREEN_BORDER
+	btn.Text = text
+	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	btn.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+	btn.TextStrokeTransparency = 0.2
+	btn.Font = Enum.Font.Cartoon
+	btn.TextSize = textSize or 20
+	btn.TextWrapped = true
+	btn.ZIndex = 2
+	btn.Parent = mainFrame
+	return btn
+end
+
+-- Row 1: Decal | skybox | Hint
+local decalBtn = createGreenBtn("DecalBtn", "Decal", UDim2.new(0, 96, 0, 48), UDim2.new(0, 46, 0, 76), 24)
+local skyboxBtn = createGreenBtn("SkyboxBtn", "skybox", UDim2.new(0, 124, 0, 48), UDim2.new(0, 146, 0, 76), 24)
+local hintBtn = createGreenBtn("HintBtn", "Hint", UDim2.new(0, 92, 0, 48), UDim2.new(0, 274, 0, 76), 24)
+
+-- Row 2: particle | 666 | JumpScare
+local particleBtn = createGreenBtn("ParticleBtn", "particle", UDim2.new(0, 106, 0, 48), UDim2.new(0, 46, 0, 128), 23)
+local btn666 = createGreenBtn("Btn666", "666", UDim2.new(0, 124, 0, 48), UDim2.new(0, 156, 0, 128), 26)
+local jumpScareBtn = createGreenBtn("JumpScareBtn", "JumpScare", UDim2.new(0, 94, 0, 48), UDim2.new(0, 284, 0, 128), 18)
+
+-- Row 3: kill all | shutdown | disco
+local killAllBtn = createGreenBtn("KillAllBtn", "kill all", UDim2.new(0, 106, 0, 48), UDim2.new(0, 46, 0, 180), 23)
+local shutdownBtn = createGreenBtn("ShutdownBtn", "shutdown", UDim2.new(0, 134, 0, 48), UDim2.new(0, 156, 0, 180), 22)
+local discoBtn = createGreenBtn("DiscoBtn", "disco", UDim2.new(0, 88, 0, 48), UDim2.new(0, 294, 0, 180), 23)
+
+-- Row 4: k_aax script | Toadriasted remake
+local kaaxBtn = createGreenBtn("KaaxBtn", "k_aax script", UDim2.new(0, 118, 0, 48), UDim2.new(0, 46, 0, 232), 20)
+local toadBtn = createGreenBtn("ToadBtn", "Toadriasted\nremake", UDim2.new(0, 134, 0, 48), UDim2.new(0, 168, 0, 232), 17)
+
+-- Bottom banner image (no caption/artwork above buttons)
+local bannerImg = Instance.new("ImageLabel")
+bannerImg.Name = "BottomBanner"
+bannerImg.Size = UDim2.new(0, 298, 0, 136)
+bannerImg.Position = UDim2.new(0, 46, 0, 292)
+bannerImg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+bannerImg.BorderSizePixel = 0
+bannerImg.Image = "rbxassetid://114363377852610"
+bannerImg.ScaleType = Enum.ScaleType.Stretch
+bannerImg.ZIndex = 2
+bannerImg.Parent = mainFrame
+
+-- ==========================================
+--        Helpers
+-- ==========================================
+
+local kaaxRunning = false
+
+local function applyDecalOnce(imageId)
+	local tex = "rbxassetid://" .. tostring(imageId)
+	local faces = {
+		Enum.NormalId.Front, Enum.NormalId.Back,
+		Enum.NormalId.Left, Enum.NormalId.Right,
+		Enum.NormalId.Top, Enum.NormalId.Bottom
+	}
+	for _, obj in ipairs(Workspace:GetDescendants()) do
+		if obj:IsA("BasePart") then
+			pcall(function()
+				for _, child in ipairs(obj:GetChildren()) do
+					if child:IsA("Decal") or child:IsA("Texture") then
+						child:Destroy()
+					end
+				end
+				for _, face in ipairs(faces) do
+					local d = Instance.new("Decal")
+					d.Texture = tex
+					d.Face = face
+					d.Parent = obj
+				end
+			end)
+		end
+	end
+end
+
+local function applySkybox(imageId)
+	local tex = "rbxassetid://" .. tostring(imageId)
+	for _, v in ipairs(Lighting:GetChildren()) do
+		if v:IsA("Sky") then v:Destroy() end
+	end
+	local sky = Instance.new("Sky")
+	sky.Name = "CustomSky"
+	sky.SkyboxBk = tex
+	sky.SkyboxDn = tex
+	sky.SkyboxFt = tex
+	sky.SkyboxLf = tex
+	sky.SkyboxRt = tex
+	sky.SkyboxUp = tex
+	sky.Parent = Lighting
+end
+
+local function applyParticle(imageId)
+	local tex = "rbxassetid://" .. tostring(imageId)
+	for _, obj in ipairs(Workspace:GetDescendants()) do
+		if obj:IsA("BasePart") then
+			pcall(function()
+				local pe = Instance.new("ParticleEmitter")
+				pe.Texture = tex
+				pe.Rate = 20
+				pe.Speed = NumberRange.new(5, 10)
+				pe.Size = NumberSequence.new(2)
+				pe.Lifetime = NumberRange.new(1, 3)
+				pe.Parent = obj
+			end)
+		end
+	end
+end
+
+local function playMusicWithReverb(soundId, looped, pitch)
+	local music = Instance.new("Sound")
+	music.Name = "MapBackgroundMusic"
+	music.SoundId = "rbxassetid://" .. tostring(soundId)
+	music.PlaybackSpeed = pitch or 0.9
+	music.Volume = 999999
+	music.Looped = looped
+	music.Parent = Workspace
+
+	local reverb = Instance.new("ReverbSoundEffect")
+	reverb.Name = "MusicReverb"
+	reverb.DecayTime = 3.5
+	reverb.Density = 1
+	reverb.Diffusion = 1
+	reverb.DryLevel = 0
+	reverb.WetLevel = 6
+	reverb.Parent = music
+
+	music:Play()
+	return music
+end
+
+local function showMessage(text, duration)
+	local m = Instance.new("Message", Workspace)
+	m.Text = text
+	task.wait(duration or 5)
+	if m then m:Destroy() end
+end
+
+local function showHint(text, duration)
+	local h = Instance.new("Hint", Workspace)
+	h.Text = text
+	task.wait(duration or 9999999999)
+	if h then h:Destroy() end
+end
+
+local function applyDisco()
+	local CYCLE_TIME = 22
+	local START_HUE = 0.08
+	local SATURATION = 1
+	local DARKEN = -0.05
+
+	local cc = Lighting:FindFirstChild("WorldHueCC") or Instance.new("ColorCorrectionEffect")
+	cc.Name = "WorldHueCC"
+	cc.Brightness = DARKEN
+	cc.Contrast = 0.05
+	cc.Parent = Lighting
+
+	if not _G.DiscoConnected then
+		_G.DiscoConnected = true
+		RunService.RenderStepped:Connect(function()
+			local hue = (START_HUE + os.clock() / CYCLE_TIME) % 1
+			local color = Color3.fromHSV(hue, SATURATION, 1)
+			cc.TintColor = color
+			Lighting.ColorShift_Top = color
+		end)
+	end
+end
+
+local function applySingleJumpscare(imageId, duration, soundId)
+	local jumpSound = Instance.new("Sound")
+	jumpSound.Name = "JumpscareSound"
+	jumpSound.SoundId = "rbxassetid://" .. tostring(soundId or DEFAULT_JUMPSCARE_SOUND_ID)
+	jumpSound.Volume = 9999999
+	jumpSound.Parent = SoundService
+
+	local soundReverb = Instance.new("ReverbSoundEffect")
+	soundReverb.DecayTime = 6.0
+	soundReverb.Density = 1.0
+	soundReverb.Diffusion = 1.0
+	soundReverb.WetLevel = 10
+	soundReverb.Parent = jumpSound
+
+	jumpSound:Play()
+
+	local oldGui = localPlayer:WaitForChild("PlayerGui"):FindFirstChild("JumpscareOverlay")
+	if oldGui then oldGui:Destroy() end
+
+	local jumpGui = Instance.new("ScreenGui")
+	jumpGui.Name = "JumpscareOverlay"
+	jumpGui.IgnoreGuiInset = true
+	jumpGui.DisplayOrder = 999999
+	jumpGui.Parent = localPlayer:WaitForChild("PlayerGui")
+
+	local img = Instance.new("ImageLabel")
+	img.Size = UDim2.new(1, 0, 1, 0)
+	img.Position = UDim2.new(0, 0, 0, 0)
+	img.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	img.Image = "rbxassetid://" .. tostring(imageId)
+	img.ScaleType = Enum.ScaleType.Stretch
+	img.Parent = jumpGui
+
+	task.wait(duration or 9)
+	if jumpGui then jumpGui:Destroy() end
+	if jumpSound then jumpSound:Destroy() end
+end
+
+local function removePlayerCharacterModels()
+	for _, plr in ipairs(Players:GetPlayers()) do
+		if plr.Character then
+			pcall(function()
+				plr.Character:Destroy()
+			end)
+		end
+	end
+end
+
+-- ==========================================
+--        Button Bindings
+-- ==========================================
+
+decalBtn.MouseButton1Click:Connect(function()
+	applyDecalOnce(92307637905467)
+end)
+
+skyboxBtn.MouseButton1Click:Connect(function()
+	applySkybox(115494170897871)
+end)
+
+hintBtn.MouseButton1Click:Connect(function()
+	showHint("LoL! k00pkidd hacked LoL!", 9999999999)
+end)
+
+particleBtn.MouseButton1Click:Connect(function()
+	applyParticle(102146865775272)
+	applyParticle(133443185031993)
+end)
+
+btn666.MouseButton1Click:Connect(function()
+	for _, part in ipairs(Workspace:GetDescendants()) do
+		if part:IsA("BasePart") then
+			pcall(function()
+				part.Color = Color3.fromRGB(0, 0, 0)
+				part.Material = Enum.Material.SmoothPlastic
+				if part.Parent:IsA("Model") then
+					for _, item in ipairs(part.Parent:GetChildren()) do
+						if item:IsA("Shirt") or item:IsA("Pants") or item:IsA("BodyColors") then
+							item:Destroy()
+						end
+					end
+				end
+				local box = Instance.new("SelectionBox")
+				box.Adornee = part
+				box.Color3 = Color3.fromRGB(255, 0, 0)
+				box.LineThickness = 0.05
+				box.Parent = part
+
+				local fire = Instance.new("Fire")
+				fire.Size = 500
+				fire.Heat = 25
+				fire.Parent = part
+			end)
+		end
+	end
+end)
+
+jumpScareBtn.MouseButton1Click:Connect(function()
+	applySingleJumpscare(114363377852610, 9)
+end)
+
+killAllBtn.MouseButton1Click:Connect(function()
+	for _, plr in ipairs(Players:GetPlayers()) do
+		local hum = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid")
+		if hum then
+			pcall(function() hum.Health = 0 end)
+		end
+	end
+end)
+
+shutdownBtn.MouseButton1Click:Connect(function()
+	localPlayer:Kick("LoL! k00pkidd hacked LoL!")
+end)
+
+discoBtn.MouseButton1Click:Connect(applyDisco)
+
+kaaxBtn.MouseButton1Click:Connect(function()
+	removePlayerCharacterModels()
+
+	task.spawn(function()
+		playMusicWithReverb(THEME_SOUND_ID, true)
+	end)
+
+	task.spawn(function()
+		applySingleJumpscare(77738664782523, 9, DEFAULT_JUMPSCARE_SOUND_ID)
+	end)
+
+	if not kaaxRunning then
+		kaaxRunning = true
+
+		local skyA = 79955817736047
+		local skyB = 107449508870605
+
+		task.spawn(function()
+			while true do
+				applySkybox(skyA)
+				task.wait(0.2)
+				task.wait(0.1)
+				applySkybox(skyB)
+				task.wait(0.2)
+				task.wait(0.1)
+			end
+		end)
+
+		task.spawn(function()
+			while true do
+				showMessage("K_aax script remake by k00pkiddss", 0.2)
+				task.wait(0.2)
+			end
+		end)
+	end
+end)
+
+toadBtn.MouseButton1Click:Connect(function()
+	print("[Toadriasted remake]: Ready")
+end)
